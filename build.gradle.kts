@@ -7,6 +7,7 @@ plugins {
 	kotlin("plugin.spring") version "1.2.71"
 	//kotlin("plugin.jpa") version "1.2.71"
 	jacoco
+	id("org.sonarqube") version "2.7"
 }
 
 group = "com.example"
@@ -21,6 +22,7 @@ configurations {
 }
 
 repositories {
+	jcenter()
 	mavenCentral()
 }
 
@@ -33,7 +35,7 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	//runtimeOnly("com.h2database:h2")
-
+ 
 }
 
 jacoco {
@@ -47,9 +49,16 @@ tasks.jacocoTestReport {
         html.destination = file("${buildDir}/jacocoHtml")
     }
 }
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
 	}
+}
+sonarqube {
+    properties {
+        //property "sonar.projectName", "demo"
+		
+    }
 }
